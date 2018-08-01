@@ -9,3 +9,15 @@ compile_commands.json
 CTestTestfile.cmake
 /cmake-build-debug
 /.idea
+
+# Файлы, создающиеся при компиляции модуля
+.main.ko.cmd
+.main.mod.o.cmd
+.main.o.cmd
+.tmp_versions/
+Module.symvers
+main.mod.c
+main.ko
+main.mod.o
+main.o
+modules.order
