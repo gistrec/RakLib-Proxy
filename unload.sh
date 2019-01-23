@@ -13,7 +13,7 @@ fi
 # Выгружаем модуль
 sudo rmmod $MODULE_NAME
 
-# Проверяем успешно ли загрузился модуль
+# Проверяем успешно ли выгрузился модуль
 MODULE=`lsmod | grep $MODULE_NAME`
 
 if [ -z "$MODULE" ]; then
