@@ -1,27 +1,12 @@
-// Обязательная часть любого загружаемого модуля ядра
-#include <linux/init.h>
-#include <linux/kernel.h>
-#include <linux/module.h> /* for MODULE_*. module_* */
-#include <linux/printk.h> /* for pr_* */
-#include <linux/netfilter_ipv4.h>
-
-
-#include <linux/skbuff.h>
-#include <linux/udp.h>
-#include <linux/netfilter.h>
-#include <net/ip.h>
-
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Alex Frost");
-MODULE_DESCRIPTION("A simple UDP proxy for linux");
-MODULE_VERSION("0.0.1");
+#include "config.h"
 
 
 // Структура для регистрации функции в netfilter
 static struct nf_hook_ops nfho_in;
 
-// Хук для входящих пакетов
+/**
+ * В функцию передаются входящие пакеты
+ */
 static unsigned int hook_packet_in(void *priv,
 	                               struct sk_buff *skb,
 		                           const struct nf_hook_state *state)
@@ -29,20 +14,33 @@ static unsigned int hook_packet_in(void *priv,
 	struct iphdr   *ip_header;  /* IP header struct */
 	struct udphdr  *udp_header; /* UDP header struct */
 
+	u16 sport, dport;           /* Source and destination ports */
+    u32 saddr, daddr;           /* Source and destination addresses */
+
 	if (!skb) return NF_ACCEPT;
 
-	ip_header = (struct iphdr *) skb_network_header(skb);
+	ip_header  = ip_hdr(skb);   // Getting IP Header
+    udp_header = udp_hdr(skb); // Getting UDP Header
 
-	if (ip_header->protocol == IPPROTO_UDP) {
-		udp_header = (struct udphdr *)(skb_transport_header(skb) + ip_hdrlen(skb));
-		if (udp_header) {
-			pr_info("SRC: (%pI4):%d --> DST: (%pI4):%d\n",
-					&ip_header->saddr,
-					ntohs(udp_header->source),
-					&ip_header->daddr,
-					ntohs(udp_header->dest));
-		}
-	}
+    /* Skip if it's not UDP packet */
+    if (ip_header->protocol != IPPROTO_UDP)
+        return NF_ACCEPT;
+
+    /* Convert network endianness to host endiannes */
+    saddr = ntohl(ip_header->saddr);
+    daddr = ntohl(ip_header->daddr);
+    sport = ntohs(udp_header->source);
+    dport = ntohs(udp_header->dest);
+
+    //if (dport != EXTERNAL_PORT) return NF_ACCEPT;
+
+    MyTestNetworkSend();
+
+
+    printk("RECEIVE, print_udp: %pI4h:%d -> %pI4h:%d\n", &saddr,
+                                                         sport,
+                                                         &daddr,
+                                                         dport);
 
 	return NF_ACCEPT;
 }
@@ -68,6 +66,7 @@ static int __init initModule(void) {
 		pr_info("Модуль загружен!\n");
 	}
 
+	init_network(); // Инициализируем netpool
 
     return result;
 }
@@ -77,6 +76,3 @@ static void __exit exitModule(void) {
 
     pr_info("Module unloaded!\n");
 }
-
-module_init(initModule);
-module_exit(exitModule);

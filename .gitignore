@@ -20,3 +20,4 @@ main.ko
 main.mod.o
 main.o
 modules.order
+main.o.rc

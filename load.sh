@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MODULE_NAME="main"
+MODULE_NAME="Main"
 
 MODULE=`lsmod | grep $MODULE_NAME`
 
@@ -11,7 +11,7 @@ if [ -n "$MODULE" ]; then
 fi
 
 # Загружаем модуль
-sudo insmod "$MODULE_NAME.ko"
+sudo insmod src/"$MODULE_NAME.ko"
 
 # Проверяем успешно ли загрузился модуль
 MODULE=`lsmod | grep $MODULE_NAME`

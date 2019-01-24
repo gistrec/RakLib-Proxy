@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MODULE_NAME="main"
+MODULE_NAME="Main"
 
 MODULE=`lsmod | grep $MODULE_NAME`
 

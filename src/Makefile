@@ -1,4 +1,5 @@
-obj-m += main.o
+obj-m += Main.o
+
 all:
 	make -C /lib/modules/`uname -r`/build M=`pwd` modules
 clean:
