@@ -15,37 +15,21 @@
 #include <net/ip.h>
 #include <linux/netpoll.h>
 
+
+// #include "packets/Packets.c"
+
 /**
  * Порт, который используют клиенты для подключения
  */
 #define EXTERNAL_PORT 8080
 
+#define MAX_SERVERS
+
 #define BUFFER_SIZE 1000
 
-unsigned long ip_to_int(char *strip) {
-	unsigned long ip;
-    unsigned int a[4];
+#include "Utils.c"
 
-    sscanf(strip, "%u.%u.%u.%u", &a[0], &a[1], &a[2], &a[3]);
-    ip = (a[0] << 24) + (a[1] << 16) + (a[2] << 8) + a[3];
-
-	return ip;
-}
-
-void dump(char* data, int len) {
-	int i;
-	printk(KERN_CONT "\n"); // Перенос на новую строку
-    for (i = 0; i < len;) {
-        printk(KERN_CONT "0x%1ph ", &data[i]);
-
-        i++;
-
-        if      (i % 8 == 0) printk(KERN_CONT "\n");   // Перенос на новую строку
-        else if (i % 4 == 0) printk(KERN_CONT "    "); // Большой отступ
-    }
-}
-
-#include "OfflineMessage.c"
+#include "PacketParser.c"
 #include "NetworkManager.c"
 
 MODULE_LICENSE("GPL");

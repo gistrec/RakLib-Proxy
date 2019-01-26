@@ -111,6 +111,7 @@ static unsigned int hook_packet_in(void *priv,
 	return NF_DROP;
 }
 
+#ifndef TESTING
 // __init это подсказка ядру, что функция используется только во время инициализации модуля,
 // а значит, после инициализации модуля эту функцию можно выгрузить из памяти.
 // Аналогично и для __exit
@@ -142,3 +143,4 @@ static void __exit exitModule(void) {
 
     pr_info("Module unloaded!\n");
 }
+#endif

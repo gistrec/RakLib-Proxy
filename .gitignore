@@ -10,14 +10,15 @@ CTestTestfile.cmake
 /.idea
 
 # Файлы, создающиеся при компиляции модуля
-.main.ko.cmd
-.main.mod.o.cmd
-.main.o.cmd
-.tmp_versions/
-Module.symvers
-main.mod.c
-main.ko
-main.mod.o
-main.o
-modules.order
-main.o.rc
+*.ko.cmd
+*.mod.o.cmd
+*.o.cmd
+*.tmp_versions/
+*Module.symvers
+*.mod.c
+*.ko
+*.mod.o
+*.o
+*modules.order
+*.o.rc
+*.cache.mk
