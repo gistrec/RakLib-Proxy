@@ -16,31 +16,36 @@
 #include <linux/netpoll.h>
 
 
-// #include "packets/Packets.c"
-
-/**
- * Порт, который используют клиенты для подключения
- */
+// Порт, который используют клиенты для подключения
 #define EXTERNAL_PORT 8080
 
-#define MAX_SERVERS
+#define MAX_SERVERS 10
+#define MAX_CLIENTS 100
 
 #define BUFFER_SIZE 1000
 
 #include "Utils.c"
+#include "packets/Packets.c"
 
-#include "PacketParser.c"
-#include "NetworkManager.c"
+#include "server/Server.c"
+#include "server/ServerManager.c"
+
+#include "client/Client.c"
+#include "client/ClientManager.c"
+
+#include "Network.c"
+
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Alex Frost");
-MODULE_DESCRIPTION("A simple UDP proxy for linux");
-MODULE_VERSION("0.0.1");
+MODULE_VERSION("0.1.0");
+MODULE_AUTHOR ("Alex Frost - gistrec@mail.ru");
+MODULE_DESCRIPTION("RakLib proxy for linux");
 
 
-static int __init initModule(void);
+static int  __init initModule(void);
 static void __exit exitModule(void);
 
-
+#ifndef TESTING
 module_init(initModule);
 module_exit(exitModule);
+#endif
