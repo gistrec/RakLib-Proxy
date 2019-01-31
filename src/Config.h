@@ -15,22 +15,27 @@
 #include <net/ip.h>
 #include <linux/netpoll.h>
 
-
+// Адрес прокси [Host byte order]
+#define PROXY_ADDRESS 0xc0a80069 // 192.168.0.105
 // Порт, который используют клиенты для подключения
 #define EXTERNAL_PORT 8080
 
 #define MAX_SERVERS 10
 #define MAX_CLIENTS 100
 
-#define BUFFER_SIZE 1000
+// Минимальный порт, который может назначен клиенту
+// Максимальный порт: MIN_BIND_PORT + MAX_CLIENTS
+#define MIN_BIND_PORT 1000
+
+#define BUFFER_SIZE 2000
 
 #include "Utils.c"
 #include "packets/Packets.c"
 
-#include "server/Server.c"
-#include "server/ServerManager.c"
+#include "server/Server.h"
+#include "client/Client.h"
 
-#include "client/Client.c"
+#include "server/ServerManager.c"
 #include "client/ClientManager.c"
 
 #include "Network.c"
