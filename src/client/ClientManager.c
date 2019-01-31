@@ -55,7 +55,7 @@ Client* get_client(u32 saddr, u16 sport) {
  */
 Client* get_client_by_port(u16 sport) {
     Client* client;
-    client = &(clients[MIN_BIND_PORT - ntohs(sport)]);
+    client = &(clients[ntohs(sport) - MIN_BIND_PORT]);
 
     if (client->active) return client;
     else return 0;
@@ -82,7 +82,8 @@ void handle_client_packet(u32 saddr, u16 sport, char* data, int len) {
     // Получаем сервер, на котором играет клиент
     server = get_server_by_id(client->server_id);
 
-    // TODO: RakLib Packets check
+    // Вызываем функцию, которая заменит адрес и порт в RakLib пакете
+    setAddressInPacket(client, server, data, len);
 
     // Отправляем пакет на сервер
     send_packet(

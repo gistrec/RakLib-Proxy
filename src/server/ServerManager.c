@@ -96,7 +96,8 @@ void handle_server_packet(u32 saddr, u16 sport, u16 dport, char* data, int len) 
         return; // Если клиента нет - то пакет подделан
     }
 
-    // TODO: RakLib Packets check
+    // Вызываем функцию, которая заменит адрес и порт в RakLib пакете
+    setAddressInPacket(client, server, data, len);
 
     // Отправляем пакет клиенту
     send_packet(

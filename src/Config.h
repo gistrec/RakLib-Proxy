@@ -29,11 +29,12 @@
 
 #define BUFFER_SIZE 2000
 
-#include "Utils.c"
-#include "packets/Packets.c"
+#include "utils/Utils.c"
 
 #include "server/Server.h"
 #include "client/Client.h"
+
+#include "packets/Packets.c"
 
 #include "server/ServerManager.c"
 #include "client/ClientManager.c"
